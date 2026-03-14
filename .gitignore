@@ -1,0 +1,12 @@
+# Build output
+/target/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Rust
+*.rs.bk
