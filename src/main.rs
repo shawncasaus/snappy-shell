@@ -1,6 +1,7 @@
 mod path_utils;
 use path_utils::find_executables;
 use std::collections::HashMap;
+use std::env::current_dir;
 #[allow(unused_imports)]
 use std::io::{self, Write};
 use std::os::unix::process::CommandExt;
@@ -10,6 +11,7 @@ fn main() {
     let type_map = HashMap::from([
         ("type", "used to identify if a type is availble in shell."),
         ("exit", "exits shell."),
+        ("pwd", "prints current working directory."),
         ("echo", "outputs to shell"),
     ]);
 
@@ -30,6 +32,12 @@ fn main() {
 
         if cmd == "exit" {
             break;
+        } else if cmd == "pwd" {
+            if let Ok(path) = current_dir() {
+                println!("{}", path.display());
+            } else {
+                println!("Error getting current directory");
+            }
         } else if cmd == "type" {
             if args.is_empty() {
                 println!("{}: no arguments provided", cmd);
