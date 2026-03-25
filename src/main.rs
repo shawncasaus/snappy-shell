@@ -1,4 +1,5 @@
 mod path_utils;
+use path_utils::cd;
 use path_utils::find_executables;
 use std::collections::HashMap;
 use std::env::current_dir;
@@ -12,6 +13,7 @@ fn main() {
         ("type", "used to identify if a type is availble in shell."),
         ("exit", "exits shell."),
         ("pwd", "prints current working directory."),
+        ("cd", "changes current working directory."),
         ("echo", "outputs to shell"),
     ]);
 
@@ -37,6 +39,13 @@ fn main() {
                 println!("{}", path.display());
             } else {
                 println!("Error getting current directory");
+            }
+        } else if cmd == "cd" {
+            if args.is_empty() {
+                println!("{}: no path provided.", cmd);
+            } else {
+                let path = &args[0];
+                cd(path);
             }
         } else if cmd == "type" {
             if args.is_empty() {

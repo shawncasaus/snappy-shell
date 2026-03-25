@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
+use std::path::Path;
 
 pub fn find_executables(command: &str) -> Option<String> {
     // hard coded path variable
@@ -30,4 +31,20 @@ pub fn find_executables(command: &str) -> Option<String> {
         }
     }
     None
+}
+
+pub fn cd(path: &str) {
+    let new_path = Path::new(path);
+
+    // handle relative paths
+    if !new_path.is_absolute() {
+        eprint!("cd: {} is not an absolute path.", path);
+        return;
+    }
+    // handle absolute paths
+    else if new_path.is_absolute() {
+        if let Err(_) = env::set_current_dir(new_path) {
+            eprintln!("cd: {} no such file or directory.", path);
+        }
+    }
 }
